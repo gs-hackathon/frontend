@@ -5,7 +5,7 @@ import 'package:waste_product/views/auth/login_1.dart';
 import 'base_64.dart';
 
 class AuthWrapper extends StatefulWidget {
-  const AuthWrapper({Key? key}) : super(key: key);
+  const AuthWrapper({Key key}) : super(key: key);
 
   @override
   State<AuthWrapper> createState() => _AuthWrapperState();
