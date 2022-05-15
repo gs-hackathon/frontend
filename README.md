@@ -1,6 +1,12 @@
 # Compost
 Compost, Istanbullu'nun atıklarının geri dönüşümü için teslimatı kolaylaştırır.
 
+* [Giriş Ekranı](https://github.com/gs-hackathon/frontend#giriş-ekranı)
+* [Ana Sayfa](https://github.com/gs-hackathon/frontend#ana-sayfa)
+* [Atık Toplama Talebi](https://github.com/gs-hackathon/frontend#atık-toplama-talebi)
+* [Profil](https://github.com/gs-hackathon/frontend#profil)
+* [Lider Tablosu](https://github.com/gs-hackathon/frontend#lider-tablosu)
+
 ## Giriş Ekranı
 
 ![Login](https://github.com/gs-hackathon/frontend/blob/main/images/login_screen.jpg?raw=true)
