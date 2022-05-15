@@ -20,8 +20,8 @@ Compost, Istanbullu'nun atıklarının geri dönüşümü için teslimatı kolay
 
 ## Profil
 
-!(Profile)[https://github.com/gs-hackathon/frontend/blob/main/images/profile.jpg?raw=true)
-!(All Requests)[https://github.com/gs-hackathon/frontend/blob/main/images/tüm_ilanlar.jpg?raw=true]
+![Profile](https://github.com/gs-hackathon/frontend/blob/main/images/profile.jpg?raw=true)
+![All Requests](https://github.com/gs-hackathon/frontend/blob/main/images/tüm_ilanlar.jpg?raw=true)
 
 ## Lider Tablosu
-!(Leaderboard)[https://github.com/gs-hackathon/frontend/blob/main/images/leaderboard_screen.jpg?raw=true]
+![Leaderboard](https://github.com/gs-hackathon/frontend/blob/main/images/leaderboard_screen.jpg?raw=true)
