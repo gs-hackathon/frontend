@@ -1,4 +1,4 @@
-# Compost
+## Compost
 Compost, Istanbullu'nun atıklarının geri dönüşümü için teslimatı kolaylaştırır.
 
 * [Giriş Ekranı](https://github.com/gs-hackathon/frontend#giriş-ekranı)
