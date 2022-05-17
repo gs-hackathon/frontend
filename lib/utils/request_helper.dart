@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:waste_product/utils/Prefs.dart';
+import 'package:waste_product/utils/base_url.dart';
 
 class RequestHelper extends http.BaseClient {
   http.Client _httpClient = new http.Client();
@@ -47,7 +48,7 @@ class RequestHelper extends http.BaseClient {
   Uri _fromUriOrString(uri) => uri is String ? Uri.parse(uri) : uri as Uri;
 
   Uri url(String urlPath) {
-    final url = "http://10.22.23.236:8080/" + urlPath;
+    final url = baseUrl + urlPath;
     return Uri.parse(url);
   }
 }

@@ -196,7 +196,7 @@ class _SelectTypeAdvertState extends State<SelectTypeAdvert> {
             margin: const EdgeInsets.all(5),
             padding: const EdgeInsets.all(8),
             width: Get.width / 3.5,
-            height: Get.height / 4,
+            height: Get.height / 5,
             child: Column(
               children: [
                 Text(

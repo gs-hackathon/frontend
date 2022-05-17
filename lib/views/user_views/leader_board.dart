@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:waste_product/models/users_model.dart';
+import 'package:waste_product/services/user/get_users.dart';
 
 class Person {
   final String name;
@@ -18,6 +20,25 @@ class LeaderBoard extends StatefulWidget {
 }
 
 class _LeaderBoardState extends State<LeaderBoard> {
+  List<Data> users;
+
+  @override
+  initState() {
+    super.initState();
+    getAllUsersFunction();
+  }
+
+  Future<void> getAllUsersFunction() async {
+    Users response = await UserService.getAllUsers();
+    setState(() {
+      if (response.data.isNotEmpty) {
+        users = response.data;
+      } else {
+        users = [];
+      }
+    });
+  }
+
   List<Person> people = [
     Person(
         "Timur",
@@ -54,69 +75,78 @@ class _LeaderBoardState extends State<LeaderBoard> {
         backgroundColor: Colors.white,
         title: Text('Lider Tablosu', style: TextStyle(color: Colors.black)),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: Get.height / 36,
-            ),
-            Container(
-              height: Get.height,
-              child: ListView.separated(
-                itemCount: people.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    leading: Text(
-                      "${index + 1}",
-                      style: TextStyle(
-                        fontSize: Get.height / 40,
-                        fontWeight: FontWeight.w600,
+      body: users != null
+          ? users.isNotEmpty
+              ? SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: Get.height / 36,
                       ),
-                      textAlign: TextAlign.end,
-                    ),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              people[index].image,
-                              fit: BoxFit.fill,
-                              height: 50,
-                            )),
-                        SizedBox(width: Get.width / 40),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(people[index].name,
+                      SizedBox(
+                        height: Get.height,
+                        child: ListView.separated(
+                          itemCount: users.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              leading: Text(
+                                "${index + 1}",
                                 style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold)),
-                            Text(people[index].title,
-                                style: TextStyle(
-                                    fontSize: 10, fontWeight: FontWeight.w300)),
-                          ],
+                                  fontSize: Get.height / 40,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.end,
+                              ),
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.network(
+                                        people[index].image,
+                                        fit: BoxFit.fill,
+                                        height: 50,
+                                      )),
+                                  SizedBox(width: Get.width / 40),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(users[index].name,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold)),
+                                      Text(people[index].title,
+                                          style: TextStyle(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w300)),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              trailing: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(users[index].points.toString(),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold)),
+                                  Text("Puan",
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w300))
+                                ],
+                              ),
+                            );
+                          },
+                          separatorBuilder: (_, __) => Divider(),
                         ),
-                      ],
-                    ),
-                    trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(people[index].points.toString(),
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold)),
-                        Text("Puan",
-                            style: TextStyle(
-                                fontSize: 10, fontWeight: FontWeight.w300))
-                      ],
-                    ),
-                  );
-                },
-                separatorBuilder: (_, __) => Divider(),
-              ),
-            )
-          ],
-        ),
-      ),
+                      )
+                    ],
+                  ),
+                )
+              : Container(child: Text("there is not user data"))
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 }

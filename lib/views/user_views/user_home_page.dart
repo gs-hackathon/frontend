@@ -271,7 +271,7 @@ class _UserHomePageState extends State<UserHomePage> {
           color: Colors.orange[100],
         ),
         width: Get.width / 1.8,
-        height: Get.height / 3,
+        height: Get.height / 3.5,
         child: Column(
           children: [
             Stack(
