@@ -1,15 +1,21 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:waste_product/models/item.dart';
+import 'package:waste_product/services/orders_services.dart';
 import 'package:waste_product/utils/format_utils.dart';
 import 'package:waste_product/views/user_views/user_home_page.dart';
 
 class InsertAdvertDetails extends StatefulWidget {
-  const InsertAdvertDetails({Key key}) : super(key: key);
+  final List<Item> selectedItems;
+  const InsertAdvertDetails({Key key, this.selectedItems}) : super(key: key);
 
   @override
   State<InsertAdvertDetails> createState() => _InsertAdvertDetailsState();
@@ -18,6 +24,7 @@ class InsertAdvertDetails extends StatefulWidget {
 class _InsertAdvertDetailsState extends State<InsertAdvertDetails> {
   DateTime selectedDate;
   bool isImageLoading;
+  String _base64String;
   final TextEditingController _locationController = TextEditingController();
   File _pickedImage;
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
@@ -104,9 +111,12 @@ class _InsertAdvertDetailsState extends State<InsertAdvertDetails> {
         ),
         ElevatedButton(
             onPressed: () {
-              Get.snackbar(
-                  "İlan oluşturma", "İlanınız Başarıyla oluşturulmuştur.");
-              Get.to(() => const UserHomePage());
+              print("bastıı");
+              insertOrder().then((value) {
+                Get.snackbar(
+                    "İlan oluşturma", "İlanınız Başarıyla oluşturulmuştur.");
+                Get.to(() => const UserHomePage());
+              });
             },
             child: Text("İlanı Tamamla"),
             style: ElevatedButton.styleFrom(
@@ -118,6 +128,13 @@ class _InsertAdvertDetailsState extends State<InsertAdvertDetails> {
         ),
       ],
     )));
+  }
+
+  Future<void> insertOrder() async {
+    List<int> itemsNumbers =
+        widget.selectedItems.map((e) => e.itemNumber).toList();
+    await OrderService.insertOrder(_base64String, itemsNumbers,
+        _locationController.text, selectedDate.toString().formatDate);
   }
 
   Align pickDeadlineMethod() {
@@ -179,10 +196,11 @@ class _InsertAdvertDetailsState extends State<InsertAdvertDetails> {
           await ImagePicker().pickImage(source: ImageSource.camera);
 
       if (pickedFile != null) {
-        setState(() {
-          _pickedImage = File(pickedFile.path);
-          isImageLoading = false;
-        });
+        _base64String = convertImageToBase64(pickedFile.path);
+        File _pickedFile = await convertBase64ToImage(_base64String);
+        _pickedImage = File(_pickedFile.path);
+        isImageLoading = false;
+        setState(() {});
         print("picked image" + pickedFile.path);
       } else {
         print("picked image null");
@@ -193,6 +211,23 @@ class _InsertAdvertDetailsState extends State<InsertAdvertDetails> {
         isImageLoading = false;
       });
     }
+  }
+
+  String convertImageToBase64(String _imagePath) {
+    final image = File(_imagePath);
+    final bytes = image.readAsBytesSync();
+    final base64Image = base64Encode(bytes);
+    return base64Image;
+  }
+
+  Future<File> convertBase64ToImage(String encodedStr) async {
+    Uint8List bytes = base64.decode(encodedStr);
+    var dir = await getApplicationDocumentsDirectory();
+    File file = File("${dir.path}/" +
+        DateTime.now().millisecondsSinceEpoch.toString() +
+        ".png");
+    await file.writeAsBytes(bytes);
+    return file;
   }
 
   Container textFormFieldToInsertEmail() {

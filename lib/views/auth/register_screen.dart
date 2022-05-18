@@ -1,63 +1,22 @@
-/* import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:waste_product/views/user_views/user_home_page.dart';
-
-class LoginPage1 extends StatefulWidget {
-  const LoginPage1({Key key}) : super(key: key);
-
-  @override
-  State<LoginPage1> createState() => _LoginPage1State();
-}
-
-class _LoginPage1State extends State<LoginPage1> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: Center(
-          child: Column(
-        children: [
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'User ID',
-            ),
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Password',
-            ),
-          ),
-          RaisedButton(
-                onPressed: () => Get.to(() => HomePage()),
-                child: const Text('Login'),
-              )
-        ],
-      )),
-    );
-  }
-}
- */
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:waste_product/views/auth/base_64.dart';
 import 'package:waste_product/views/user_views/user_home_page.dart';
 
-class LoginPage1 extends StatefulWidget {
-  const LoginPage1({Key key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  RegisterScreen({Key key}) : super(key: key);
 
-  @override
-  _LoginPage1State createState() => _LoginPage1State();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginPage1State extends State<LoginPage1> with TickerProviderStateMixin {
+class _RegisterScreenState extends State<RegisterScreen>
+    with TickerProviderStateMixin {
   bool isFinalState = false;
   // ProgressDialog progressDialog;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController taxNoController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConfirmController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -87,20 +46,23 @@ class _LoginPage1State extends State<LoginPage1> with TickerProviderStateMixin {
             child: Container(
               child: Column(
                 children: <Widget>[
+                  SizedBox(
+                    height: Get.height / 10,
+                  ),
                   welcomeMethod(),
                   Padding(
-                    padding: EdgeInsets.all(30.0),
+                    padding: EdgeInsets.only(left: 30.0, right: 30.0),
                     child: Column(
                       children: <Widget>[
                         SizedBox(
-                          height: 30,
+                          height: 0,
                         ),
                         Container(
                           padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                     color: Color.fromRGBO(143, 148, 251, .2),
                                     blurRadius: 20.0,
@@ -108,22 +70,17 @@ class _LoginPage1State extends State<LoginPage1> with TickerProviderStateMixin {
                               ]),
                           child: Column(
                             children: <Widget>[
-                              textFormFieldToInsertTC(),
-                              textFormFieldToInsertPassword()
+                              textFormFieldToInsertName(),
+                              textFormFieldToInsertSurname(),
+                              textFormFieldToInsertUserId(),
+                              textFormFieldToInsertPassword(),
                             ],
                           ),
                         ),
                         SizedBox(
                           height: 30,
                         ),
-                        loginButton(),
-                        SizedBox(
-                          height: 15,
-                        ),
                         registerButton(),
-                        // SizedBox(
-                        //   height: 70,
-                        // ),
                       ],
                     ),
                   )
@@ -132,15 +89,15 @@ class _LoginPage1State extends State<LoginPage1> with TickerProviderStateMixin {
             ),
           ),
         ),
-        positionedWidget(24, 84, null, null, "assets/images/2.png", 72, 72),
-        positionedWidget(null, -12, -24, null, "assets/images/1.png", 144, 144),
+        // positionedWidget(24, 84, null, null, "assets/images/2.png", 72, 72),
+        // positionedWidget(null, -12, -24, null, "assets/images/1.png", 144, 144),
         positionedWidget(-24, null, null, -48, "assets/images/2.png", 130, 130),
         positionedWidget(null, null, -72, 32, "assets/images/1.png", 130, 130),
       ],
     );
   }
 
-  loginButton() {
+  registerButton() {
     return GestureDetector(
       onTap: () async {
         Get.to(() => UserHomePage());
@@ -199,7 +156,7 @@ class _LoginPage1State extends State<LoginPage1> with TickerProviderStateMixin {
             ])),
         child: Center(
           child: Text(
-            "Giriş Yap",
+            "Kayıt Ol",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
@@ -207,28 +164,37 @@ class _LoginPage1State extends State<LoginPage1> with TickerProviderStateMixin {
     );
   }
 
-  registerButton() {
-    return GestureDetector(
-      onTap: () => Get.to(() => const TakePictureScreen()),
-      child: Container(
-        height: 50,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: LinearGradient(colors: [
-              Color(0xFF5A76B5),
-              Color(0xFF5A76B5).withOpacity(0.8),
-            ])),
-        child: Center(
-          child: Text(
-            "Register",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
+  Container textFormFieldToInsertName() {
+    return Container(
+      padding: EdgeInsets.all(8.0),
+      child: TextField(
+        obscureText: true,
+        keyboardType: TextInputType.number,
+        controller: passwordController,
+        decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: "İsim",
+            hintStyle: TextStyle(color: Colors.grey[400])),
       ),
     );
   }
 
-  Container textFormFieldToInsertPassword() {
+  Container textFormFieldToInsertSurname() {
+    return Container(
+      padding: EdgeInsets.all(8.0),
+      child: TextField(
+        obscureText: true,
+        keyboardType: TextInputType.number,
+        controller: passwordController,
+        decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: "SoyIsim",
+            hintStyle: TextStyle(color: Colors.grey[400])),
+      ),
+    );
+  }
+
+  Container textFormFieldToInsertUserId() {
     return Container(
       padding: EdgeInsets.all(8.0),
       child: TextField(
@@ -243,17 +209,16 @@ class _LoginPage1State extends State<LoginPage1> with TickerProviderStateMixin {
     );
   }
 
-  Container textFormFieldToInsertTC() {
+  Container textFormFieldToInsertPassword() {
     return Container(
       padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.grey[100]))),
       child: TextField(
-        controller: emailController,
+        obscureText: true,
         keyboardType: TextInputType.number,
+        controller: passwordConfirmController,
         decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: "TC-ID",
+            hintText: "Parola Onayla",
             hintStyle: TextStyle(color: Colors.grey[400])),
       ),
     );
@@ -264,12 +229,13 @@ class _LoginPage1State extends State<LoginPage1> with TickerProviderStateMixin {
       padding: EdgeInsets.all(48),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
+        children: [
           Text(
-            "Hoş Geldiniz",
+            "Kayıt olmak için bilgilerinizi giriniz.",
             style: TextStyle(
               fontSize: 18,
             ),
+            textAlign: TextAlign.center,
           )
         ],
       ),

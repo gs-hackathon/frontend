@@ -1,7 +1,9 @@
 // import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waste_product/views/auth/login_1.dart';
+import 'package:waste_product/utils/Prefs.dart';
+import 'package:waste_product/views/auth/login_screen.dart';
+import 'package:waste_product/views/user_views/user_home_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +21,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage1(),
+      home: buildNavigator(),
     );
+  }
+}
+
+Widget buildNavigator() {
+  var tokenData = /* Prefs.getString("access_token") ??  */"";
+  if (tokenData != "") {
+    return const UserHomePage();
+  } else {
+    return const LoginScreen();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waste_product/models/users_model.dart';
-import 'package:waste_product/services/user/get_users.dart';
+import 'package:waste_product/services/user_services.dart';
 
 class Person {
   final String name;

@@ -31,8 +31,8 @@ class _UserProfileState extends State<UserProfile> {
             ),
             ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(
-                  "https://www.kindpng.com/picc/m/33-338711_circle-user-icon-blue-hd-png-download.png",
+                child: Image.asset(
+                  "assets/images/person_icon.png",
                   fit: BoxFit.fill,
                   height: 120,
                 )),

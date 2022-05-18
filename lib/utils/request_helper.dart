@@ -1,17 +1,18 @@
 import 'dart:convert';
 
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:waste_product/utils/Prefs.dart';
 import 'package:waste_product/utils/base_url.dart';
 
 class RequestHelper extends http.BaseClient {
-  http.Client _httpClient = new http.Client();
+  final http.Client _httpClient = http.Client();
+
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    request.headers.addAll({'x-access-token': sp.getString("token")});
+    request.headers.addAll({
+      'x-access-token': sp.getString("access_token") ?? "",
+    });
     return _httpClient.send(request);
   }
 
@@ -40,9 +41,19 @@ class RequestHelper extends http.BaseClient {
         throw ArgumentError('Invalid request body "$body".');
       }
     }
-
     var responseData = await http.Response.fromStream(await send(request));
+    logRequest(responseData, body);
     return responseData;
+  }
+
+  void logRequest(http.Response responseData, body) {
+    print('\x1B[52m' + '' + '\x1B[0m');
+    print('\x1B[95m' +
+        '${responseData.request} ${responseData.statusCode}' +
+        '\x1B[0m');
+    print('\x1B[36m' + '$body' + '\x1B[0m');
+    print('\x1B[34m' + '${responseData.body}' + '\x1B[0m');
+    print('\x1B[52m' + '' + '\x1B[0m');
   }
 
   Uri _fromUriOrString(uri) => uri is String ? Uri.parse(uri) : uri as Uri;

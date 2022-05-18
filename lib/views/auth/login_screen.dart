@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:waste_product/views/auth/base_64.dart';
+import 'package:waste_product/views/auth/register_screen.dart';
 import 'package:waste_product/views/user_views/user_home_page.dart';
 
-class LoginPage2 extends StatefulWidget {
-  LoginPage2({Key key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key key}) : super(key: key);
 
-  _LoginPage2State createState() => _LoginPage2State();
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginPage2State extends State<LoginPage2> with TickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen>
+    with TickerProviderStateMixin {
   bool isFinalState = false;
   // ProgressDialog progressDialog;
-
+  TextEditingController emailController = TextEditingController();
+  TextEditingController taxNoController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController passwordConfirmController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -45,12 +48,9 @@ class _LoginPage2State extends State<LoginPage2> with TickerProviderStateMixin {
             child: Container(
               child: Column(
                 children: <Widget>[
-                  SizedBox(
-                    height: Get.height / 10,
-                  ),
                   welcomeMethod(),
                   Padding(
-                    padding: EdgeInsets.only(left: 30.0, right: 30.0),
+                    padding: EdgeInsets.all(30.0),
                     child: Column(
                       children: <Widget>[
                         SizedBox(
@@ -61,7 +61,7 @@ class _LoginPage2State extends State<LoginPage2> with TickerProviderStateMixin {
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                     color: Color.fromRGBO(143, 148, 251, .2),
                                     blurRadius: 20.0,
@@ -69,8 +69,8 @@ class _LoginPage2State extends State<LoginPage2> with TickerProviderStateMixin {
                               ]),
                           child: Column(
                             children: <Widget>[
-                              textFormFieldToInsertPassword(),
-                              textFormFieldToInsertPasswordConfirm(),
+                              textFormFieldToInsertTC(),
+                              textFormFieldToInsertPassword()
                             ],
                           ),
                         ),
@@ -78,10 +78,10 @@ class _LoginPage2State extends State<LoginPage2> with TickerProviderStateMixin {
                           height: 30,
                         ),
                         loginButton(),
-                        // SizedBox(
-                        //   height: 15,
-                        // ),
-                        // registerButton(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        registerButton(),
                         // SizedBox(
                         //   height: 70,
                         // ),
@@ -94,7 +94,7 @@ class _LoginPage2State extends State<LoginPage2> with TickerProviderStateMixin {
           ),
         ),
         positionedWidget(24, 84, null, null, "assets/images/2.png", 72, 72),
-        // positionedWidget(null, -12, -24, null, "assets/images/1.png", 144, 144),
+        positionedWidget(null, -12, -24, null, "assets/images/1.png", 144, 144),
         positionedWidget(-24, null, null, -48, "assets/images/2.png", 130, 130),
         positionedWidget(null, null, -72, 32, "assets/images/1.png", 130, 130),
       ],
@@ -170,7 +170,7 @@ class _LoginPage2State extends State<LoginPage2> with TickerProviderStateMixin {
 
   registerButton() {
     return GestureDetector(
-      onTap: () => Get.to(() => const TakePictureScreen()),
+      onTap: () => Get.to(() => RegisterScreen()),
       child: Container(
         height: 50,
         decoration: BoxDecoration(
@@ -181,7 +181,7 @@ class _LoginPage2State extends State<LoginPage2> with TickerProviderStateMixin {
             ])),
         child: Center(
           child: Text(
-            "Register",
+            "Kayıt Ol",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
@@ -204,16 +204,17 @@ class _LoginPage2State extends State<LoginPage2> with TickerProviderStateMixin {
     );
   }
 
-  Container textFormFieldToInsertPasswordConfirm() {
+  Container textFormFieldToInsertTC() {
     return Container(
       padding: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.grey[100]))),
       child: TextField(
-        obscureText: true,
+        controller: emailController,
         keyboardType: TextInputType.number,
-        controller: passwordConfirmController,
         decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: "Parola Onayla",
+            hintText: "TC-ID",
             hintStyle: TextStyle(color: Colors.grey[400])),
       ),
     );
@@ -224,13 +225,12 @@ class _LoginPage2State extends State<LoginPage2> with TickerProviderStateMixin {
       padding: EdgeInsets.all(48),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children: const [
           Text(
-            "Şifrenizi Burada Belirleyebilirsiniz.",
+            "Hoş Geldiniz",
             style: TextStyle(
               fontSize: 18,
             ),
-            textAlign: TextAlign.center,
           )
         ],
       ),
