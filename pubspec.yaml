@@ -32,6 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   get: null
+  helpers: ^1.1.4
   image_picker: ^0.8.5+3
   material_design_icons_flutter: ^5.0.6595
   path: null

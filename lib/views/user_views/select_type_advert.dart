@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:waste_product/models/item.dart';
-import 'package:waste_product/views/user_views/insert_detail_advert.dart';
+import '../../models/item.dart';
+import '../../utils/color.dart';
+import 'insert_detail_advert.dart';
 
 class SelectTypeAdvert extends StatefulWidget {
   const SelectTypeAdvert({Key key}) : super(key: key);
@@ -68,14 +69,6 @@ class _SelectTypeAdvertState extends State<SelectTypeAdvert> {
         name: 'Karıştılımış plastik',
         imageUrl: 'https://cdn-icons-png.flaticon.com/512/2666/2666681.png',
         star: 3.5),
-    // "kağıt",
-    // "plastik",
-    // "metal",
-    // "bitkisel atık yağlar",
-    // "piller",
-    // "elektrikli eşyalar",
-    // "elektronik eşyalar",
-    // "cam ambalaj atıkları"
   ];
 
   final List<Item> _filters = [];
@@ -88,10 +81,13 @@ class _SelectTypeAdvertState extends State<SelectTypeAdvert> {
         child: Column(
           children: [
             recycleTextMethod(),
-            Wrap(
-              spacing: 0.0,
-              runSpacing: 0.0,
-              children: companyPosition.toList(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Wrap(
+                spacing: 0.0,
+                runSpacing: 0.0,
+                children: companyPosition.toList(),
+              ),
             ),
             SizedBox(
               height: 20,
@@ -106,15 +102,39 @@ class _SelectTypeAdvertState extends State<SelectTypeAdvert> {
     );
   }
 
-  ElevatedButton continueButtonMethod() {
-    return ElevatedButton(
-        onPressed: () =>
-            Get.to(() => InsertAdvertDetails(selectedItems: _filters)),
-        child: Text("Devam"),
-        style: ElevatedButton.styleFrom(
-            primary: Colors.blue,
-            padding: EdgeInsets.all(16),
-            fixedSize: Size(Get.width / 1.1, 50)));
+  Container continueButtonMethod() {
+    return Container(
+      width: Get.width,
+      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: mainColor,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: TextButton(
+          onPressed: () {
+            print("bastıı");
+            Get.to(() => InsertAdvertDetails(selectedItems: _filters));
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Icon(
+                Icons.arrow_forward_rounded,
+                color: mainColor,
+              ),
+              Text("Devam",
+                  style: TextStyle(color: Colors.white, fontSize: 16)),
+              Icon(Icons.arrow_forward_rounded, color: Colors.white)
+            ],
+          )
+          // style: ElevatedButton.styleFrom(
+          //     primary: Colors.blue,
+          //     padding: EdgeInsets.all(16),
+          //     fixedSize: Size(Get.width / 1.1, 50))
+
+          ),
+    );
   }
 
   Container recycleTextMethod() {
@@ -135,6 +155,7 @@ class _SelectTypeAdvertState extends State<SelectTypeAdvert> {
 
   AppBar appBarMethod() {
     return AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(
@@ -159,50 +180,59 @@ class _SelectTypeAdvertState extends State<SelectTypeAdvert> {
           }
           setState(() {});
         },
-        child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: _filters.contains(company)
-                  ? Border.all(color: Colors.blue, width: 0)
-                  : null,
-              color: Colors.white,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 0.5,
-                  spreadRadius: 0.0,
-                  // offset: Offset(2.0, 2.0), // shadow direction: bottom right
-                )
-              ],
-            ),
-            margin: const EdgeInsets.all(5),
-            padding: const EdgeInsets.all(8),
-            width: Get.width / 3.5,
-            height: 140,
-            child: Column(
-              children: [
-                Text(
-                  company.name,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                Image.network(company.imageUrl,
-                    fit: BoxFit.fill, height: 60, width: 60),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.star_border_outlined,
-                      color: Colors.yellow,
+        child: Card(
+          elevation: 5,
+          child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                border: _filters.contains(company)
+                    ? Border.all(color: Colors.blue, width: 0)
+                    : null,
+                color: Colors.white,
+                // boxShadow: const [
+                //   BoxShadow(
+                //     // color: Colors.black,
+                //     blurRadius: 1,
+                //     spreadRadius: 1,
+                //     offset: Offset(0.5, 0.5), // shadow direction: bottom right
+                //   )
+                // ],
+              ),
+              // margin: const EdgeInsets.all(5),
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              width: Get.width / 3.5,
+              height: 140,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    company.name,
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  // SizedBox(height: 10),
+                  Image.network(company.imageUrl,
+                      fit: BoxFit.fill, height: 40, width: 40),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(
+                          Icons.star_border_outlined,
+                          color: Colors.yellow,
+                        ),
+                        Text(
+                          "${company.star}/kg",
+                          style: TextStyle(fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    Text(
-                      "${company.star}/kg",
-                      style: TextStyle(fontSize: 16),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ],
-            )),
+                  ),
+                ],
+              )),
+        ),
       );
     }
   }

@@ -25,19 +25,19 @@ class _LeaderBoardState extends State<LeaderBoard> {
   @override
   initState() {
     super.initState();
-    getAllUsersFunction();
+    // getAllUsersFunction();
   }
 
-  Future<void> getAllUsersFunction() async {
-    Users response = await UserService.getAllUsers();
-    setState(() {
-      if (response.data.isNotEmpty) {
-        users = response.data;
-      } else {
-        users = [];
-      }
-    });
-  }
+  // Future<void> getAllUsersFunction() async {
+  //   Users response = await UserService.getAllUsers();
+  //   setState(() {
+  //     if (response.data.isNotEmpty) {
+  //       users = response.data;
+  //     } else {
+  //       users = [];
+  //     }
+  //   });
+  // }
 
   List<Person> people = [
     Person(
@@ -57,14 +57,20 @@ class _LeaderBoardState extends State<LeaderBoard> {
         468.0),
     Person(
         "Özgür",
-        "https://magic.com.tr/wp-content/uploads/2020/05/50x50-abd.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlN0CN_hs_6cjq51_DhDgPSI1K9eWzka6r1Q&usqp=CAU",
         "Geri dönüştürücü",
         200.0),
+    Person(
+        "Serdar",
+        "https://www.basogullariotomotiv.com/wp-content/uploads/2020/11/5fb6b497-d3ca-4451-a86e-fb55b36816b1.jpg",
+        "Geri dönüştürücü",
+        160.0)
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -75,8 +81,8 @@ class _LeaderBoardState extends State<LeaderBoard> {
         backgroundColor: Colors.white,
         title: Text('Lider Tablosu', style: TextStyle(color: Colors.black)),
       ),
-      body: users != null
-          ? users.isNotEmpty
+      body: people != null
+          ? people.isNotEmpty
               ? SingleChildScrollView(
                   child: Column(
                     children: [
@@ -86,58 +92,79 @@ class _LeaderBoardState extends State<LeaderBoard> {
                       SizedBox(
                         height: Get.height,
                         child: ListView.separated(
-                          itemCount: users.length,
+                          itemCount: people.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return ListTile(
-                              leading: Text(
-                                "${index + 1}",
-                                style: TextStyle(
-                                  fontSize: Get.height / 40,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                textAlign: TextAlign.end,
-                              ),
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: Image.network(
-                                        people[index].image,
-                                        fit: BoxFit.fill,
-                                        height: 50,
-                                      )),
-                                  SizedBox(width: Get.width / 40),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                            return Container(
+                                padding: EdgeInsets.only(
+                                    left: 20, top: 5, right: 20, bottom: 5),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(users[index].name,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold)),
-                                      Text(people[index].title,
-                                          style: TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w300)),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              trailing: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(users[index].points.toString(),
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
-                                  Text("Puan",
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w300))
-                                ],
-                              ),
-                            );
+                                      Row(
+                                        children: [
+                                          if (index < 3) ...[
+                                            Image.asset(
+                                              "assets/images/${index == 0 ? "gold-cup" : index == 1 ? "silver-cup" : "bronze-cup"}.png",
+                                              width: 20,
+                                            ),
+                                          ],
+                                          if (index >= 3) ...[
+                                            Container(
+                                                alignment: Alignment.center,
+                                                width: 20,
+                                                child: Text(
+                                                  "${index + 1}",
+                                                  style: TextStyle(
+                                                    fontSize: Get.height / 40,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                  textAlign: TextAlign.end,
+                                                ))
+                                          ],
+                                          SizedBox(width: 15),
+                                          ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.network(
+                                                people[index].image,
+                                                fit: BoxFit.fill,
+                                                height: 50,
+                                              )),
+                                          SizedBox(width: Get.width / 40),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(people[index].name,
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              Text(people[index].title,
+                                                  style: TextStyle(
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w300)),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(people[index].points.toString(),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold)),
+                                          Text("Puan",
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w300))
+                                        ],
+                                      )
+                                    ]));
                           },
                           separatorBuilder: (_, __) => Divider(),
                         ),

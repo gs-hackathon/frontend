@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:waste_product/utils/color.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({Key key}) : super(key: key);
@@ -12,7 +13,9 @@ class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -21,7 +24,7 @@ class _UserProfileState extends State<UserProfile> {
           onPressed: () => Get.back(),
         ),
         backgroundColor: Colors.white,
-        title: Text('Profil', style: TextStyle(color: Colors.black)),
+        title: Text('Profilim', style: TextStyle(color: Colors.black)),
       ),
       body: Center(
         child: Column(
@@ -107,9 +110,9 @@ class _UserProfileState extends State<UserProfile> {
                   //     "İlan oluşturma", "İlanınız Başarıyla oluşturulmuştur.");
                   // Get.to(() => const UserHomePage());
                 },
-                child: Text("Profili Güncelle"),
+                child: Text("Profili Güncelle", style: TextStyle(fontSize: 16)),
                 style: ElevatedButton.styleFrom(
-                    primary: Colors.blue[800],
+                    primary: Colors.indigo[700],
                     padding: EdgeInsets.all(16),
                     fixedSize: Size(Get.width / 1.1, 50))),
           ],

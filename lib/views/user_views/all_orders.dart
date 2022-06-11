@@ -30,7 +30,7 @@ class _AllOrderState extends State<AllOrders> {
         "https://www.combinedresources.us/wp-content/uploads/2016/03/shutterstock_686357065.jpg",
         "Adress; Orhan Gazi Mah. 1672. sok No:42/44"),
     Order(
-        "Timur",
+        "Pil, Elektronik alet",
         "https://www.storhub.com.sg/theme/images/articles/201902/5-Ways-to-Recycle-Old-Books-in-Singapore-2-1024x682.jpg",
         "Adress; Orhan Gazi Mah. 1672. sok No:42/44"),
     Order(
@@ -67,6 +67,7 @@ class _AllOrderState extends State<AllOrders> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -106,10 +107,18 @@ class _AllOrderState extends State<AllOrders> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(_orders[index].name,
+                            Text(
+                                _orders[index].name.length > 20
+                                    ? _orders[index].name.substring(0, 20) +
+                                        "..."
+                                    : _orders[index].name,
                                 style: TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.bold)),
-                            Text(_orders[index].address,
+                            Text(
+                                _orders[index].address.length > 28
+                                    ? _orders[index].address.substring(0, 28) +
+                                        "..."
+                                    : _orders[index].address,
                                 style: TextStyle(
                                     fontSize: 10, fontWeight: FontWeight.w300)),
                           ],
